@@ -15,7 +15,7 @@ class bankAccount{
 		void deposit(double amount){
 			if(amount > 0){
 				balance += amount;
-				cout<<"deposited amount "<<amount;
+				cout<<"deposited amount "<<amount<<endl;
 			} else {
 				cout<<"tnvalid amount";
 			}
