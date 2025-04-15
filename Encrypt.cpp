@@ -1,22 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+using namespace std;
 class FileEncryptor {
 private:
-    std::string filename;
+    string filename;
     int encryptionKey;
-
-    // Caesar Cipher Encryption
-    char encryptChar(char c) {
-        if (isalpha(c)) {
+    char encryptChar(char c){
+        if(isalpha(c)){
             char base = islower(c) ? 'a' : 'A';
             return (c - base + encryptionKey) % 26 + base;
         }
         return c;
     }
-
-    // Caesar Cipher Decryption
     char decryptChar(char c) {
         if (isalpha(c)) {
             char base = islower(c) ? 'a' : 'A';
@@ -26,31 +22,27 @@ private:
     }
 
 public:
-    // Constructor
-    FileEncryptor(std::string fname, int key) : filename(fname), encryptionKey(key) {}
-
-    // Encrypt and write message to file
-    void encryptAndWrite(std::string message) {
-        std::ofstream file(filename);
+    FileEncryptor(string fname, int key) : filename(fname), encryptionKey(key) {}
+    void encryptAndWrite(string message) {
+        ofstream file(filename);
         if (!file.is_open()) {
-            std::cerr << "Error opening file for writing.\n";
+            cerr << "Error opening file for writing.\n";
             return;
         }
         for (char c : message) {
             file << encryptChar(c);
         }
         file.close();
-        std::cout << "Message successfully encrypted and stored in " << filename << "\n";
+        cout << "Message successfully encrypted and stored in " << filename << "\n";
     }
 
-    // Read and decrypt message from file
-    std::string readAndDecrypt() {
-        std::ifstream file(filename);
+    string readAndDecrypt() {
+        ifstream file(filename);
         if (!file.is_open()) {
-            std::cerr << "Error opening file for reading.\n";
+            cerr << "Error opening file for reading.\n";
             return "";
         }
-        std::string decryptedMessage = "";
+        string decryptedMessage = "";
         char c;
         while (file.get(c)) {
             decryptedMessage += decryptChar(c);
@@ -58,36 +50,32 @@ public:
         file.close();
         return decryptedMessage;
     }
-
-    // Display decrypted file contents
     void displayFileContents() {
-        std::string message = readAndDecrypt();
-        std::cout << "Decrypted Message: " << message << "\n";
+        string message = readAndDecrypt();
+        cout << "Decrypted Message: " << message << "\n";
     }
 };
-
-// Main function to demonstrate functionality
 int main() {
     FileEncryptor fe("data.txt", 3);
 
     int choice;
-    std::string message;
+    string message;
 
-    std::cout << "1. Encrypt and Write Message\n";
-    std::cout << "2. Read and Decrypt Message\n";
-    std::cout << "Enter your choice: ";
-    std::cin >> choice;
-    std::cin.ignore(); // To ignore newline character after integer input
+    cout << "1. Encrypt and Write Message\n";
+    cout << "2. Read and Decrypt Message\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+    cin.ignore();
 
     if (choice == 1) {
-        std::cout << "Enter a message to encrypt: ";
-        std::getline(std::cin, message);
+        cout << "Enter a message to encrypt: ";
+        getline(cin, message);
         fe.encryptAndWrite(message);
     } else if (choice == 2) {
-        std::cout << "\nReading and decrypting file...\n";
+        cout << "\nReading and decrypting file...\n";
         fe.displayFileContents();
     } else {
-        std::cout << "Invalid choice.\n";
+        cout << "Invalid choice.\n";
     }
 
     return 0;
